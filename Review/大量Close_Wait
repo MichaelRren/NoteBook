@@ -1,0 +1,7 @@
+# 服务端出现大量 CLOSE_WAIT 状态
+## 原因与解决方案
+1、代码一定要规范，尤其是在写一些关于自愿申请的部分，一定要在写函数之前写上注释告诉自己别忘了释放资源。
+2、数据库连接和访问要设置超时时间，这点避免阻塞。
+3、服务器的线程数也需要设置，使得问题尽可能的出现。
+
+[参考链接](https://blog.csdn.net/yu616568/article/details/44677985?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase)
