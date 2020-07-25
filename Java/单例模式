@@ -1,0 +1,30 @@
+public Singleton {
+```java
+public Singleton {
+    /**
+     * 假设线程Ⅰ先调用getInstance()，由于此时还没有任何线程创建LazySingleton实例，它会创建一个实例instance并返回。这时线程Ⅱ再调用getInstance()，当它运行到(2)处，由于这时读instance没有同步，它有可能读到instance或者null。
+     * 先考虑它读到instance的情形：
+     * 线程Ⅱ观察到了线程Ⅰ对instance的写入，这时线程Ⅱ就会执行语句(6)直接返回这个instance的值
+     * 然后对这个instance调用getRandom()方法，该方法也是在没有任何同步情况被调用，因此整个线程Ⅱ的操作都是在没有同步的情况下调用 ，这时我们无法得到线程Ⅰ的操作和线程Ⅱ的操作之间的任何有效的happen-before关系
+     * 这说明线程Ⅰ的语句(1)和线程Ⅱ的语句(7)之间并不存在happen-before关系，这就意味着线程Ⅱ在执行语句(7)完全有可能观测不到线程Ⅰ在语句(1)处对random写入的值，这就是DCL的问题
+     * 再考虑它读到null的情形：
+     * 线程Ⅱ没有观察到了线程Ⅰ对instance的写入，那么它会执行（3）（6），加同步锁，此时肯定会有线程Ⅱ（3）happen-before 线程Ⅰ的（1），那么就会有 线程Ⅱ（6）happen-before 线程Ⅰ的（1），然后线程Ⅱ再调用（7）肯定没问题
+     * ————————————————
+     * 版权声明：本文为CSDN博主「MR~许先生」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+     * 原文链接：https://blog.csdn.net/qq_35576976/java/article/details/106423055
+     */
+    private static Singleton singleton;
+    private Singleton(){}
+    
+    public static Singleton getSingleton() {
+        if (singleton == null) {
+            synchronized (Singleton.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
+    }
+}
+```
