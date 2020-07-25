@@ -13,3 +13,5 @@
 2.频繁更新的字段不用（更新索引消耗）;
 3.where中不用的字段;
 4.索引使用<>时，效果一般;
+
+https://blog.csdn.net/Abysscarry/article/details/80792876
