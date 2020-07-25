@@ -1,5 +1,4 @@
-public Singleton {
-```java
+```
 public Singleton {
     /**
      * 假设线程Ⅰ先调用getInstance()，由于此时还没有任何线程创建LazySingleton实例，它会创建一个实例instance并返回。这时线程Ⅱ再调用getInstance()，当它运行到(2)处，由于这时读instance没有同步，它有可能读到instance或者null。
